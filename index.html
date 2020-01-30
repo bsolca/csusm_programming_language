@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>MusicBox</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <h1 style="text-align: center; margin: 20px 0">My BeatBoxPlayer</h1>
+    <div class="alert alert-secondary" role="alert">
+        Choose A, B, C or D for each unlimited lines and click "Play All". (Optional) Define a tempo.
+    </div>
+    <label for="tempo">
+        <input type="number" class="form-control" id="tempo" aria-describedby="Tempo" placeholder="Default Tempo: 600">
+    </label><br>
+    <button type="button" class="btn btn-danger" onclick="playP(String('A'))">A = Play P</button>
+    <button type="button" class="btn btn-success" onclick="playP(String('B'))">B = Play TSS</button>
+    <button type="button" class="btn btn-info" onclick="playP(String('C'))">C = Play ECH</button>
+    <button type="button" class="btn btn-warning" onclick="playP(String('D'))">D = Play PFF</button>
+    <form>
+        <label for="input_notes"></label><textarea class="form-control" id="input_notes" rows="10">
+A
+ B
+  C
+   D
+</textarea>
+    </form>
+    <button type="button" class="btn btn-dark" onclick="playAll()" style="margin-top: 10px">Play all</button>
+    <script>
+        const beatA = new Audio("p.ogg");
+        const beatB = new Audio("tss.ogg");
+        const beatC = new Audio("ech.ogg");
+        const beatD = new Audio("pff.ogg");
+
+        function playP(audioName, duration) {
+            audioName = audioName.replace(/\s/g, '');
+            switch (audioName) {
+                case "A":
+                    console.log("Play A");
+                    setTimeout(() => beatA.play(), duration);
+                    break;
+                case "B":
+                    console.log("Play B");
+                    setTimeout(() => beatB.play(), duration);
+                    break;
+                case "C":
+                    console.log("Play C");
+                    setTimeout(() => beatC.play(), duration);
+                    break;
+                case "D":
+                    console.log("Play D");
+                    setTimeout(() => beatD.play(), duration);
+                    break;
+                default:
+                    console.log("No sound found: " + audioName);
+            }
+        }
+
+        function playAll() {
+            const note_raw = $(`#input_notes`).val().split(/\r?\n/);
+            const inputVal = parseInt(document.getElementById("tempo").value);
+            let duration = 0;
+            for (let i = 0; i < note_raw.length; i++) {
+                duration += inputVal ? inputVal : 600;
+                playP(note_raw[i], duration);
+            }
+        }
+
+    </script>
+</div>
+</body>
+</html>
